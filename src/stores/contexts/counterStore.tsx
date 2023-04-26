@@ -18,6 +18,7 @@ interface CreateResultInput {
 }
 
 interface ExampleContextType {
+  results: Result[]
   result: Result
   fetchExample: (query?: string) => Promise<void>
   createCount: (data: CreateResultInput) => Promise<void>
@@ -32,6 +33,7 @@ export const ExamplesContext = createContext<ExampleContextType>(
 )
 
 export function ExampleProvider({ children }: CounterStoreProviderProps) {
+  const [results, setResults] = useState<Result[]>([])
   const [result, setResult] = useState<Result>({
     description: 'test',
     type: 'addition',
@@ -76,6 +78,7 @@ export function ExampleProvider({ children }: CounterStoreProviderProps) {
         type,
         createdAt: new Date(),
       }
+      setResults((oldState) => [response, ...oldState])
 
       setResult(response)
     },
@@ -87,7 +90,7 @@ export function ExampleProvider({ children }: CounterStoreProviderProps) {
   }, [fetchExample])
   return (
     <ExamplesContext.Provider
-      value={{ result, fetchExample, createCount }}
+      value={{ result, fetchExample, createCount, results }}
     >
       {children}
     </ExamplesContext.Provider>

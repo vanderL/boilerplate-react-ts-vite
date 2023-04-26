@@ -1,22 +1,30 @@
-import { useState } from 'react';
+import { useMemo } from "react";
+import { useContextSelector } from "use-context-selector";
+import { ExamplesContext } from '../contexts/counterStore';
 
-export function useCounter() {
-  const [count, setCount] = useState<number>(0);
+export function useSammary() {
+  const results = useContextSelector(ExamplesContext, (context) => { return context.results })
 
-  function increment() {
-    setCount((c) => c + 1);
-  }
+  const summary = useMemo(() => {
+    return results.reduce(
+      (acc, result) => {
+        if (result.type === 'addition') {
+          acc.total += (result.valueOne + result.valueTwo)
 
-  function decrement() {
-    setCount((c) => c - 1);
-  }
+        } else {
+          acc.total -= (result.valueOne + result.valueTwo)
+        }
 
-  function reset() {
-    setCount(0);
-  }
+        return acc
+      },
+      {
+        addition: 0,
+        subtraction: 0,
+        total: 0,
+      }
+    )
+  }, [results])
 
-  return {
-    count, increment, decrement, reset,
-  };
 
+  return summary
 }

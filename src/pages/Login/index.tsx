@@ -1,5 +1,4 @@
 import { useContextSelector } from 'use-context-selector'
-
 import {
   LoginContainer,
 } from './styles'
@@ -7,15 +6,15 @@ import { AuthContext } from '../../stores/contexts/authStore'
 import { useState } from 'react'
 
 export function Login() {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
   const signIn = useContextSelector(
     AuthContext,
     (context) => {
       return context.signIn
-    },
+    }
   )
-
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
 
   async function handleLogin() {
     await signIn({ email, password })
@@ -24,21 +23,23 @@ export function Login() {
   return (
     <div>
       <LoginContainer>
+        <h1>login</h1>
         <form action="">
           <input
             type="text"
-            placeholder="email"
+            placeholder='email'
             onChange={(e) => setEmail(e.target.value)}
-            required
+
           />
           <input
             type="text"
+            placeholder='email'
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="Senha"
-            required
+
           />
+
           <button type="button" onClick={handleLogin}>
-            Login
+            login
           </button>
         </form>
       </LoginContainer>

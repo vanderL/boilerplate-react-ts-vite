@@ -38,14 +38,11 @@ export function AuthProvider({ children }: CounterStoreProviderProps) {
   });
 
   const signIn = useCallback(async ({ email, password }: SignInCredencials) => {
-    // const response = await api.post('/sessions', { email, password });
-    window.alert(`email: ${email} senha: ${password}`)
-    // const { token, user } = response.data;
+
+    window.alert(`email: ${email} password: ${password}`)
 
     localStorage.setItem('@residencia:token', email);
     localStorage.setItem('@residencia:user', JSON.stringify({ email }));
-
-    // setData({ token, user });
     setData({ token: password, user: { email } });
   }, []);
 
